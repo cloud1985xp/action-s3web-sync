@@ -1,0 +1,19 @@
+name: '"Sync files to S3 Hosted Website " Action For GitHub Actions'
+description: 'Configure AWS credential and region environment variables for use with the AWS CLI and AWS SDKs'
+branding:
+  icon: 'cloud'
+  color: 'orange'
+inputs:
+  bucket-name:
+    description: 'S3 bucket you want to sync web pages to'
+    required: true
+outputs:
+  update-list:
+    description: 'The AWS account ID for the provided credentials'
+runs:
+  using: 'composite'
+  steps:
+    - run: $GITHUB_ACTION_PATH/deploy.sh
+      shell: sh
+      env:
+        BUCKET_NAME: ${{ inputs.bucket-name }}
