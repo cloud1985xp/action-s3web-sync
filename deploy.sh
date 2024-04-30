@@ -39,7 +39,8 @@ aws s3 sync --exclude '.git/*' --exclude '.*' --exclude '*.sh' --exclude '.*/*' 
 if [ ! -z ${distribution_id} ]; then
   echo "Create invalidation to CloudFront.. ID=${distribution_id}"
   echo $(cat .inv-batch.json)
-  aws cloudfront create-invalidation --distribution-id $distribution_id --invalidation-batch file://.inv-batch.json
+  aws cloudfront create-invalidation --distribution-id $distribution_id --invalidation-batch file://.inv-batch.json ||
+    aws cloudfront create-invalidation --distribution-id $distribution_id --paths "/*"
 fi
 
 echo "Deploy finished"
